@@ -32,6 +32,10 @@ class ModelArgs:
 
     device: str = "cuda" if torch.cuda.is_available() else "cpu"
 
+    def __post_init__(self):
+        if self.n_kv_heads is None:
+            self.n_kv_heads = self.n_heads
+
 class RMSNorm(nn.Module):
     def __init__(self, dim: int, eps: float = 1e-6):
         super().__init__()
@@ -62,7 +66,7 @@ def precompute_theta_pos_frequencies(head_dim: int, seq_len: int, device: str,th
 
     return frequencies_complex
 
-def apply_rope(x: torch.Tensor, frequencies_complex: torch.Tensor, device: str):
+def apply_rotary_embeddings(x: torch.Tensor, frequencies_complex: torch.Tensor, device: str):
     x_complex = torch.view_as_complex(x.float().reshape(*x.shape[:-1], -1, 2))
     freqs_complex = frequencies_complex.unsqueeze(0).unsqueeze(2)
     x_rotate = x_complex * freqs_complex
