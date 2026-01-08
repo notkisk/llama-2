@@ -11,7 +11,8 @@ learned a ton about:
 also did some yapping in the comments about general intelligence and the cia.
 building this makes me realize agi is far away and i should probably just get a job.
 
-anyway, use `prepare.sh` to get weights if you have the meta url.
+anyway, use `prepare.sh` to get weights if you have the meta url (the script downloads
+the llama 2 model and its tokenizer to be used by inference.py, it's an official script from Meta AI).
 run `inference.py` to chat with it.
 
 code is what it is. enjoy.
